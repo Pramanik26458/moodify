@@ -1,0 +1,28 @@
+/* ── Button System ── */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  gap: .5rem; padding: .75rem 1.75rem;
+  border-radius: var(--r-md); border: none; cursor: pointer;
+  font-family: var(--font-ui); font-weight: 700; font-size: .9rem;
+  letter-spacing: .01em; white-space: nowrap;
+  transition: all .25s var(--ease); position: relative; overflow: hidden;
+  &:active { transform: scale(0.97); }
+  &:disabled { opacity: .45; cursor: not-allowed; transform: none !important; }
+}
+.btn-ember {
+  background: var(--grad-ember); color: #fff;
+  box-shadow: var(--shadow-ember);
+  &:hover { box-shadow: 0 12px 40px rgba(245,158,11,.45); transform: translateY(-2px); }
+}
+.btn-ghost {
+  background: var(--glass); color: var(--text-primary);
+  border: 1px solid var(--glass-border); backdrop-filter: blur(10px);
+  &:hover { border-color: var(--teal); transform: translateY(-2px); }
+}
+.btn-teal {
+  background: var(--grad-ocean); color: #fff;
+  box-shadow: var(--shadow-teal);
+  &:hover { box-shadow: 0 12px 40px rgba(13,148,136,.4); transform: translateY(-2px); }
+}
+.btn-sm  { padding: .5rem 1.25rem; font-size: .82rem; border-radius: var(--r-sm); }
+.btn-lg  { padding: 1rem 2.5rem; font-size: 1rem; border-radius: var(--r-lg); }

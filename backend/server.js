@@ -1,0 +1,24 @@
+require("dotenv").config();
+
+const app = require("./src/app");
+
+const connectToDB =
+  require("./src/config/database");
+
+connectToDB();
+
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(
+    `✅ Server running on http://localhost:${PORT}`
+  );
+});
+
+process.on("unhandledRejection", (err) => {
+  console.error("❌ Unhandled Rejection:", err);
+});
+
+process.on("uncaughtException", (err) => {
+  console.error("❌ Uncaught Exception:", err);
+});

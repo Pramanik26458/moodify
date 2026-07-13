@@ -1,0 +1,301 @@
+// ── PLAYER ───────────────────────────────────────────────
+.player-wrap {
+  position: relative;
+  background: var(--card, #0F1318);
+  border: 1px solid var(--border, rgba(255,255,255,0.06));
+  border-radius: 18px;
+  overflow: hidden;
+  padding: 1.75rem;
+
+  @media (max-width: 500px) { padding: 1.25rem; }
+}
+
+// Top mood glow bar
+.pw-top-glow {
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 2px;
+  background: var(--mood-grad, linear-gradient(135deg,#4F6EF7,#7C3AED));
+  transition: background 0.9s cubic-bezier(0.23,1,0.32,1);
+}
+
+// ── HERO (poster + meta) ─────────────────────────────────
+.pw-hero {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-bottom: 1.75rem;
+}
+
+.pw-poster {
+  position: relative;
+  width: 86px; height: 86px;
+  flex-shrink: 0;
+  border-radius: 14px;
+  overflow: hidden;
+  cursor: pointer;
+
+  img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    display: block;
+    transition: transform 0.35s ease;
+  }
+
+  &.spin img {
+    animation: poster-spin 18s linear infinite;
+    border-radius: 50%;
+  }
+
+  .poster-hover {
+    position: absolute; inset: 0;
+    display: flex; align-items: center; justify-content: center;
+    background: rgba(0,0,0,0.45);
+    font-size: 1.4rem; color: #fff;
+    opacity: 0; transition: opacity 0.2s;
+    border-radius: inherit;
+  }
+
+  &:hover .poster-hover { opacity: 1; }
+  &:hover img { transform: scale(1.06); }
+}
+
+@keyframes poster-spin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+.pw-meta {
+  flex: 1;
+  overflow: hidden;
+}
+
+.pw-badge {
+  display: inline-block;
+  padding: 0.22rem 0.65rem;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.09);
+  border-radius: 100px;
+  font-size: 0.68rem; font-weight: 600;
+  color: var(--mood-color, #4F6EF7);
+  text-transform: capitalize;
+  margin-bottom: 0.45rem;
+  letter-spacing: 0.04em;
+  transition: color 0.9s;
+}
+
+.pw-title {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.25rem; font-weight: 800;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+  color: #EEF2FF; margin-bottom: 0.2rem;
+}
+
+.pw-artist {
+  font-size: 0.82rem; color: #7D8BA0;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+}
+
+.pw-queue-pos {
+  font-size: 0.72rem; color: #3D4857;
+  margin-top: 0.3rem;
+}
+
+// ── CONTROLS ─────────────────────────────────────────────
+.pw-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+// Seek bar
+.pw-seek {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.ts {
+  font-size: 0.72rem;
+  color: #3D4857;
+  width: 32px;
+  flex-shrink: 0;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-family: 'DM Sans', sans-serif;
+}
+
+.seek-rail {
+  position: relative;
+  flex: 1;
+  height: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+
+  input[type="range"] {
+    position: absolute;
+    inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+    margin: 0;
+  }
+}
+
+.rail-bg {
+  position: relative;
+  width: 100%; height: 4px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.rail-fill {
+  position: absolute;
+  top: 0; left: 0; height: 100%;
+  background: var(--mood-grad, linear-gradient(135deg,#4F6EF7,#7C3AED));
+  border-radius: 4px;
+  transition: width 0.1s linear, background 0.9s;
+  max-width: 100%;
+}
+
+.seek-rail:hover .rail-bg { height: 5px; }
+
+// Button row
+.pw-btn-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.65rem;
+}
+
+.pw-ctrl {
+  display: flex; align-items: center; justify-content: center;
+  width: 42px; height: 42px;
+  border-radius: 50%; border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #7D8BA0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.72rem; font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &:hover:not(.disabled) {
+    background: rgba(255,255,255,0.09);
+    color: #EEF2FF;
+    border-color: rgba(255,255,255,0.14);
+  }
+
+  &.disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+  }
+}
+
+// Track prev/next buttons — slightly larger
+.pw-track-btn {
+  width: 44px; height: 44px;
+  font-size: 1rem;
+  color: #7D8BA0;
+
+  &:hover:not(.disabled) {
+    color: var(--mood-color, #4F6EF7);
+    border-color: var(--mood-color, #4F6EF7);
+    box-shadow: 0 0 14px var(--mood-glow, rgba(79,110,247,0.2));
+  }
+}
+
+// Play/Pause — big central button
+.pw-play {
+  display: flex; align-items: center; justify-content: center;
+  width: 56px; height: 56px;
+  border-radius: 50%; border: none;
+  background: var(--mood-grad, linear-gradient(135deg,#4F6EF7,#7C3AED));
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  box-shadow: 0 4px 22px var(--mood-glow, rgba(79,110,247,0.35));
+  transition: transform 0.2s, box-shadow 0.2s, background 0.9s;
+
+  &:hover {
+    transform: scale(1.08);
+    box-shadow: 0 8px 32px var(--mood-glow, rgba(79,110,247,0.5));
+  }
+
+  &:active { transform: scale(0.96); }
+
+  &.playing {
+    background: var(--mood-grad);
+  }
+}
+
+// Volume + speed row
+.pw-secondary {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.pw-vol {
+  display: flex; align-items: center; gap: 0.6rem; flex: 1;
+}
+
+.vol-ico {
+  font-size: 0.9rem; flex-shrink: 0; width: 20px; text-align: center;
+}
+
+.vol-rail {
+  position: relative;
+  flex: 1; height: 18px;
+  display: flex; align-items: center;
+  cursor: pointer;
+
+  input[type="range"] {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0; cursor: pointer; z-index: 2; margin: 0;
+  }
+}
+
+.vr-bg {
+  position: relative;
+  width: 100%; height: 3px;
+  background: rgba(255,255,255,0.07);
+  border-radius: 4px; overflow: hidden;
+}
+
+.vr-fill {
+  position: absolute; top: 0; left: 0; height: 100%;
+  background: var(--mood-grad, linear-gradient(135deg,#4F6EF7,#7C3AED));
+  border-radius: 4px;
+  transition: width 0.08s linear, background 0.9s;
+  max-width: 100%;
+}
+
+// Playback speed selector
+.pw-speed {
+  padding: 0.35rem 0.65rem;
+  border-radius: 8px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.04);
+  color: #7D8BA0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.75rem;
+  cursor: pointer;
+  outline: none;
+  appearance: none;
+  -webkit-appearance: none;
+  transition: all 0.2s;
+
+  &:hover, &:focus {
+    background: rgba(255,255,255,0.08);
+    color: #EEF2FF;
+    border-color: rgba(255,255,255,0.14);
+  }
+
+  option {
+    background: #111520;
+    color: #EEF2FF;
+  }
+}
