@@ -6,6 +6,12 @@ const api = axios.create({
 });
 
 export async function getSong({ mood }) {
-  const response = await api.get("/api/songs?mood=" + mood);
+  const response = await axios.get(
+  `${import.meta.env.VITE_API_URL}/api/songs`,
+  {
+    params: { mood: moodValue },
+    withCredentials: true,
+  }
+);
   return response.data;
 }

@@ -8,7 +8,7 @@ const useRealStats = () => {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
-    axios.get("http://localhost:3000/api/admin/stats")
+    axios.get(`${import.meta.env.VITE_API_URL}/api/admin/stats`)
       .then(r => {
         setStats({
           totalSongs:     r.data.totalSongs     || 0,
