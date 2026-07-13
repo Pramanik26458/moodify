@@ -9,21 +9,27 @@ const app = express();
 // ================= MIDDLEWARE =================
 
 const allowedOrigins = [
-  "http://localhost:5173", 
+  "http://localhost:5173",
   process.env.FRONTEND_URL
 ];
+
+console.log("FRONTEND_URL:", process.env.FRONTEND_URL);
+console.log("Allowed Origins:", allowedOrigins);
 
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Allow requests with no origin (like mobile apps, Postman, or server-to-server requests)
+      console.log("Incoming Origin:", origin);
+
       if (!origin) return callback(null, true);
-      
-      if (allowedOrigins.indexOf(origin) !== -1) {
+
+      if (allowedOrigins.includes(origin)) {
         return callback(null, true);
-      } else {
-        return callback(new Error("Not allowed by CORS"));
       }
+
+      console.log("Blocked Origin:", origin);
+
+      return callback(new Error("Not allowed by CORS"));
     },
     credentials: true,
   })
